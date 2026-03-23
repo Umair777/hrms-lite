@@ -1,5 +1,9 @@
 function App() {
-  return <h1>HRMS Lite</h1>;
+  return (
+    <div className="p-10 text-4xl text-center font-bold text-blue-600">
+      HRMS Lite Dashboard
+    </div>
+  );
 }
 
-export default App;
+export default App
