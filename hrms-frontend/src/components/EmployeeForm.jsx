@@ -10,10 +10,15 @@ export default function EmployeeForm({ onAdd }) {
   const handleChange = (e) => {
   setForm({ ...form, [e.target.name]: e.target.value });
 };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log(form);
+  onAdd(form);  
+};
 
   return (
   <div>
-    <form className="space-y-3">
+    <form className="space-y-3" onSubmit={handleSubmit}>
       <input name="employee_id" placeholder="Employee ID" onChange={handleChange} className="border p-2 w-full" />
       <input name="name" placeholder="Full Name" onChange={handleChange} className="border p-2 w-full" />
       <input name="email" placeholder="Email" onChange={handleChange} className="border p-2 w-full" />
