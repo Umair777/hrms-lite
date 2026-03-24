@@ -6,10 +6,10 @@ export default function EmployeeList({ employees, onDelete }) {
 
     return (
         <div className="mt-4">
-            <h2 className="text-xl font-bold mb-5 justify-content item-center">Employee List</h2>
+            <h2 className="text-xl font-bold mb-5 justify-content item-center text-blue-600 ">Employee List</h2>
             <table className="w-full border border-gray-300">
                 <thead>
-                <tr className="bg-gray-200">
+                <tr className="w-full border text-white bg-blue-900">
                     <th className="border p-2">S.No</th>
                     <th className="border p-2">ID</th>
                     <th className="border p-2">Name</th>
@@ -19,13 +19,15 @@ export default function EmployeeList({ employees, onDelete }) {
                 </thead>
 
                 <tbody>
-                <tr className="text-center">
-                    <td className="border p-2">1</td>
-                    <td className="border p-2">101</td>
-                    <td className="border p-2">Test</td>
-                    <td className="border p-2">test@gmail.com</td>
-                    <td className="border p-2">IT</td>
-                </tr>
+                {employees.map((emp, index) => (
+                    <tr key={emp.employee_id} className="text-center">
+                    <td className="border p-2">{index + 1}</td>
+                    <td className="border p-2">{emp.employee_id}</td>
+                    <td className="border p-2">{emp.name}</td>
+                    <td className="border p-2">{emp.email}</td>
+                    <td className="border p-2">{emp.department}</td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </div>
