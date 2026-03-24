@@ -23,6 +23,7 @@ export default function Attendance() {
           <th className="p-2 border">Employee ID</th>
           <th className="p-2 border">Date</th>
           <th className="p-2 border">Status</th>
+          <th className="p-2 border">Mark</th>
         </tr>
       </thead>
 
@@ -31,9 +32,40 @@ export default function Attendance() {
           <tr key={att.id} className="text-center border">
             <td className="p-2 border">{att.employee_id}</td>
             <td className="p-2 border">{att.date}</td>
-            <td className="p-2 border">{att.status}</td>
+            
+            {/*  Status Display */}
+                <td className="p-2 border">
+                  {att.status === "Present" && (
+                    <span className="text-green-600 font-bold">
+                      Present
+                    </span>
+                  )}
+                  {att.status === "Absent" && (
+                    <span className="text-red-600 font-bold">
+                      Absent
+                    </span>
+                  )}
+                </td>
+                 <td className="p-2 border">
+                  <select
+                    className="border px-2 py-1"
+                    value={att.status}
+                    onChange={(e) =>
+                      markAttendance(att.employee_id, e.target.value)
+                    }
+                  >
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                  </select>
+                </td>
           </tr>
         ))}
+          {/* Empty state
+        {employees?.length === 0 && (
+          <p className="text-center mt-4 text-gray-500">
+            No employees found
+          </p>
+        )} */}
       </tbody>
     </table>
     </div>
