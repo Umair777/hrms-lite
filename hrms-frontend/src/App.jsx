@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import { useState, useEffect } from "react";
 import EmployeeForm from "./components/EmployeeForm";
 import EmployeeList from "./components/EmployeeList";
-import AttendanceList from "./components/AttendanceList";
+import AttendanceList from "./components/Attendance";
 function App() {
   const [view, setView] = useState("employees");
   const [employees, setEmployees] = useState([]);
@@ -14,7 +14,7 @@ function App() {
     const res = await fetch("http://localhost:8000/employees");
     const data = await res.json();
     console.log("Fetched data:", data); 
-    setEmployees(data.data);
+    setEmployees(data.data || []); // Handle case where data might be undefined
   };
   useEffect(() => {
     fetchEmployees();
