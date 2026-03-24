@@ -4,6 +4,9 @@ import EmployeeForm from "./components/EmployeeForm";
 import EmployeeList from "./components/EmployeeList";
 function App() {
   const [employees, setEmployees] = useState([]);
+  const addEmployee = (emp) => {
+  setEmployees([...employees, emp]);
+};
   
   return (
     <div>
@@ -12,8 +15,8 @@ function App() {
       HRMS Lite Dashboard
     </div>
     <div className="p-6">
-        <EmployeeForm/>
-        <EmployeeList />
+        <EmployeeForm onAdd={addEmployee} />
+        <EmployeeList  employees={employees}/>
       </div>
     </div>
   );
