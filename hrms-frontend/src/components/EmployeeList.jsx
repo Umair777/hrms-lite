@@ -10,21 +10,21 @@ export default function EmployeeList({ employees, onDelete }) {
             <table className="w-full border border-gray-300">
                 <thead>
                 <tr>
-                    <th>S.No</th>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Department</th>
+                    <th className="border p-2">S.No</th>
+                    <th className="border p-2">ID</th>
+                    <th className="border p-2">Name</th>
+                    <th className="border p-2">Email</th>
+                    <th className="border p-2">Department</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>101</td>
-                    <td>Test</td>
-                    <td>test@gmail.com</td>
-                    <td>IT</td>
+                    <td className="border p-2">1</td>
+                    <td className="border p-2">101</td>
+                    <td className="border p-2">Test</td>
+                    <td className="border p-2">test@gmail.com</td>
+                    <td className="border p-2">IT</td>
                 </tr>
                 </tbody>
             </table>
