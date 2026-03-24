@@ -42,7 +42,7 @@ export default function EmployeeList({ employees, onDelete, editMode, setEditMod
                             <button
                                 onClick={() => {
                                 if (window.confirm("Are you sure?")) {
-                                    onDelete(index);
+                                    onDelete(emp.id);
                                 }
                                 }}
                                 className="bg-red-500 text-white px-2 py-1 rounded"
