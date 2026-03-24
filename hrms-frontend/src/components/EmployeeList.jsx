@@ -1,15 +1,18 @@
 
-export default function EmployeeList({ employees, onDelete }) {
+export default function EmployeeList({ employees, onDelete, editMode, setEditMode }) {
   if (employees.length === 0) {
     return <p>No employees added yet.</p>;
   }
 
     return (
         <div className="mt-4">
+            <div className="flex justify-between items-center mb-3">
             <h2 className="text-xl font-bold mb-5 justify-content item-center text-blue-600 ">
                 Employee List
             </h2>
-            <button>Edit Mode</button>
+            <button className="bg-blue-600 text-white px-3 py-1 rounded" onClick={() => setEditMode(!editMode)}>
+            Edit Mode </button>
+            </div>
             <table className="w-full border border-gray-300">
                 <thead>
                 <tr className="w-full border text-white bg-blue-900">
@@ -18,7 +21,9 @@ export default function EmployeeList({ employees, onDelete }) {
                     <th className="border p-2">Name</th>
                     <th className="border p-2">Email</th>
                     <th className="border p-2">Department</th>
-                    <th className="border p-2">Actions</th>
+                    {editMode && (
+                        <th className="border p-2">Actions</th>
+                    )}
                 </tr>
                 </thead>
 
