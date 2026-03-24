@@ -4,6 +4,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from .schemas import EmployeeCreate
 from .database import supabase
+from datetime import date 
 
 app = FastAPI()
 app.add_middleware(
@@ -120,9 +121,10 @@ def mark_attendance(data: dict):
     return res.data[0]
 
 # Get all attendance records
-@app.get("/attendance")
-def get_attendance():
-    res = supabase.table("attendance").select("*").execute()
+@app.get("/attendance/today")
+def get_today_attendance():
+    today = date.today().isoformat()
+    res = supabase.table("attendance").select("*").eq("date", today).execute()
     return res.data
 
 # ============================
@@ -153,3 +155,5 @@ async def global_exception_handler(request, exc):
             "message": str(exc)
         },
     )
+    
+    
