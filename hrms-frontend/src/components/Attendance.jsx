@@ -5,7 +5,8 @@ export default function Attendance() {
   const fetchTodayAttendance = async () => {
     const res = await fetch("http://localhost:8000/attendance/today");
     const data = await res.json();
-    setAttendance(data || []);
+    console.log("attendance:", data);
+    // setAttendance(data || []);
   };
   useEffect(() => {
     fetchTodayAttendance();
