@@ -4,6 +4,7 @@ import EmployeeForm from "./components/EmployeeForm";
 import EmployeeList from "./components/EmployeeList";
 function App() {
   const [employees, setEmployees] = useState([]);
+  //create a function to add employee to the list
   const addEmployee = (emp) => {
   setEmployees([...employees, emp]);
 };

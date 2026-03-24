@@ -30,9 +30,9 @@ const handleSubmit = (e) => {
     </form>
 
     {/* 👇 DEBUG VIEW */}
-    <pre className="bg-gray-100 p-2 mt-4 text-sm">
+    {/* <pre className="bg-gray-100 p-2 mt-4 text-sm">
       {JSON.stringify(form, null, 2)}
-    </pre>
+    </pre> */}
   </div>
 );
 }
