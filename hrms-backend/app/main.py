@@ -32,3 +32,12 @@ def add_employee(emp: dict):
 def get_employees():
     res = supabase.table("employees").select("*").execute()
     return res.data
+
+@app.delete("/employees/{id}")
+def delete_employee(id: int):
+    res = supabase.table("employees").delete().eq("id", id).execute()
+
+    if not res.data:
+        raise HTTPException(status_code=404, detail="No Employee in the Database")
+
+    return {"message": "Employee deleted successfully"}
