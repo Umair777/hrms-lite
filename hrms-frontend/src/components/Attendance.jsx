@@ -3,6 +3,26 @@ export default function Attendance() {
     const [attendance, setAttendance] = useState([]);
     const [showSelector, setShowSelector] = useState(false);
     const [selectedEmployees, setSelectedEmployees] = useState([]);
+    const [records, setRecords] = useState([]);
+    const fetchRecords = async () => {
+    if (selectedEmployees.length === 0) {
+      alert("Select at least one employee");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:8000/attendance");
+      const data = await res.json();
+
+      const filtered = (data.data || []).filter((a) =>
+        selectedEmployees.includes(a.employee_id)
+      );
+
+      setRecords(filtered);
+    } catch (err) {
+      console.error("Error fetching records:", err);
+    }
+  };
     // fetch today's attendance
   const fetchTodayAttendance = async () => {
     const res = await fetch("http://localhost:8000/attendance/today");
