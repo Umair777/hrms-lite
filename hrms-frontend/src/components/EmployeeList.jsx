@@ -7,7 +7,7 @@ export default function EmployeeList({ employees, onDelete }) {
     return (
         <div className="mt-4">
             <h2 className="text-xl font-bold mb-5 justify-content item-center">Employee List</h2>
-            <table>
+            <table className="w-full border border-gray-300">
                 <thead>
                 <tr>
                     <th>S.No</th>
