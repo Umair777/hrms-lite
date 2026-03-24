@@ -11,7 +11,7 @@ export default function Attendance() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/attendance");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/attendance`);
       const data = await res.json();
 
       const filtered = (data.data || []).filter((a) =>
@@ -25,7 +25,7 @@ export default function Attendance() {
   };
     // fetch today's attendance
   const fetchTodayAttendance = async () => {
-    const res = await fetch("http://localhost:8000/attendance/today");
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/attendance/today`);
     const data = await res.json();
     console.log("attendance:", data);
     setAttendance(data.data || []);
@@ -37,7 +37,7 @@ export default function Attendance() {
     const today = new Date().toISOString().split("T")[0];
 
     try {
-      await fetch("http://localhost:8000/attendance", {
+      await fetch(`${import.meta.env.VITE_API_URL}/attendance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

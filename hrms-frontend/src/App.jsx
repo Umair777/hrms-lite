@@ -11,10 +11,10 @@ function App() {
 
   //fetch employees from backend when component mounts
   const fetchEmployees = async () => {
-    const res = await fetch("http://localhost:8000/employees");
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/employees`);
     const data = await res.json();
     console.log("Fetched data:", data); 
-    setEmployees(data.data || []); // Handle case where data might be undefined
+    setEmployees(data.data);
   };
   useEffect(() => {
     fetchEmployees();
@@ -22,7 +22,7 @@ function App() {
   //create a function to add employee to the list
   const addEmployee = async (emp) => {
   //backend call to save employee in database
-   const res = await fetch("http://localhost:8000/employees", 
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/employees`, 
     {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -37,7 +37,7 @@ function App() {
   };
   const deleteEmployee = async (id) => {
     await fetch(
-      `http://localhost:8000/employees/${id}`,
+      `${import.meta.env.VITE_API_URL}/employees`,
       {
         method: "DELETE",
       }
