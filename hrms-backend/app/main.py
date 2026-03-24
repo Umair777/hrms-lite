@@ -27,3 +27,8 @@ def add_employee(emp: dict):
     if res.status_code != 201:
         raise HTTPException(status_code=500, detail="Failed to add employee")
     return res.data
+
+@app.get("/employees")
+def get_employees():
+    res = supabase.table("employees").select("*").execute()
+    return res.data
