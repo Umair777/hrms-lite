@@ -35,3 +35,8 @@ def mark_attendance(data: AttendanceCreate):
 def get_today_attendance():
     data = attendance_service.get_today_attendance_full()
     return {"success": True, "data": data}
+
+@router.get("/")
+def get_all_attendance():
+    res = supabase.table("attendance").select("*").execute()
+    return {"success": True, "data": res.data or []}
