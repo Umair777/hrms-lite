@@ -139,6 +139,14 @@ export default function Attendance() {
           
       </tbody>
     </table>
+    {showSelector && (
+      <button
+        onClick={fetchRecords}
+        className="mt-4 bg-green-600 text-white px-4 py-2 rounded"
+      >
+        Fetch Records
+      </button>
+    )}
     {/* Empty state */}
         {attendance?.length === 0 && (
           <p className="text-center mt-4 text-gray-500">
