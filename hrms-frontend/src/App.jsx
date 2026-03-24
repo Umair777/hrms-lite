@@ -6,7 +6,18 @@ function App() {
   const [employees, setEmployees] = useState([]);
   const [editMode, setEditMode] = useState(false);
   //create a function to add employee to the list
-  const addEmployee = (emp) => {
+  const addEmployee = async (emp) => {
+  //backend call to save employee in database can be made here
+   const res = await fetch("http://localhost:8000/employees", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(emp),
+  });
+
+  const data = await res.json();
+
+  // update UI with response
+    
   setEmployees([...employees, emp]);
   };
   const deleteEmployee = (index) => {
