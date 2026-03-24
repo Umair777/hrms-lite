@@ -8,7 +8,7 @@ function App() {
   const addEmployee = (emp) => {
   setEmployees([...employees, emp]);
 };
-  
+  const [editMode, setEditMode] = useState(false);
   return (
     <div>
     <Navbar />

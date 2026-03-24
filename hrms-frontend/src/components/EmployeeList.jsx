@@ -6,7 +6,10 @@ export default function EmployeeList({ employees, onDelete }) {
 
     return (
         <div className="mt-4">
-            <h2 className="text-xl font-bold mb-5 justify-content item-center text-blue-600 ">Employee List</h2>
+            <h2 className="text-xl font-bold mb-5 justify-content item-center text-blue-600 ">
+                Employee List
+            </h2>
+            <button>Edit Mode</button>
             <table className="w-full border border-gray-300">
                 <thead>
                 <tr className="w-full border text-white bg-blue-900">
@@ -15,6 +18,7 @@ export default function EmployeeList({ employees, onDelete }) {
                     <th className="border p-2">Name</th>
                     <th className="border p-2">Email</th>
                     <th className="border p-2">Department</th>
+                    <th className="border p-2">Actions</th>
                 </tr>
                 </thead>
 
@@ -26,6 +30,14 @@ export default function EmployeeList({ employees, onDelete }) {
                     <td className="border p-2">{emp.name}</td>
                     <td className="border p-2">{emp.email}</td>
                     <td className="border p-2">{emp.department}</td>
+                     <td className="border p-2">
+                        <button
+                        onClick={() => onDelete && onDelete(index)}
+                        className="bg-red-500 text-white px-2 py-1 rounded"
+                        >
+                        Delete
+                        </button>
+                    </td>
                     </tr>
                 ))}
                 </tbody>
