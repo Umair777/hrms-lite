@@ -15,10 +15,15 @@ app.add_middleware(
     # Allow all custom headers (e.g., Content-Type, Authorization)
     allow_headers=["*"],
 )
+
+## Basic health check endpoint
 @app.get("/")
 def root():
     return {"message": "Welcome to the HRMS API"}
 
+####################### Employee endpoints ####################
+
+# Add a new employee
 @app.post("/employees")
 def add_employee(emp: dict):
     print("Received employee data:", emp)
@@ -28,11 +33,13 @@ def add_employee(emp: dict):
         raise HTTPException(status_code=500, detail="Failed to add employee")
     return res.data[0]
 
+# Get all employees
 @app.get("/employees")
 def get_employees():
     res = supabase.table("employees").select("*").execute()
     return res.data
 
+# Delete an employee by ID
 @app.delete("/employees/{id}")
 def delete_employee(id: int):
     res = supabase.table("employees").delete().eq("id", id).execute()
@@ -42,6 +49,9 @@ def delete_employee(id: int):
 
     return {"message": "Employee deleted successfully"}
 
+####################### Attendance endpoints #######################
+
+# Mark attendance
 @app.post("/attendance")
 def mark_attendance(data: dict):
     res = supabase.table("attendance").insert(data).execute()
@@ -50,3 +60,9 @@ def mark_attendance(data: dict):
         raise HTTPException(status_code=500, detail="Failed to mark attendance")
 
     return res.data[0]
+
+# Get all attendance records
+@app.get("/attendance")
+def get_attendance():
+    res = supabase.table("attendance").select("*").execute()
+    return res.data

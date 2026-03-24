@@ -1,8 +1,11 @@
 import Navbar from "./components/Navbar";
+
 import { useState, useEffect } from "react";
 import EmployeeForm from "./components/EmployeeForm";
 import EmployeeList from "./components/EmployeeList";
+import AttendanceList from "./components/AttendanceList";
 function App() {
+  const [view, setView] = useState("employees");
   const [employees, setEmployees] = useState([]);
   const [editMode, setEditMode] = useState(false);
 
@@ -45,15 +48,29 @@ function App() {
     
   return (
     <div>
-    <Navbar />
+    <Navbar setView={setView} />
     <div className="p-10 text-4xl text-center font-bold text-blue-600">
       HRMS Lite Dashboard
     </div>
     <div className="p-6">
-        <EmployeeForm onAdd={addEmployee} />
-        <EmployeeList  
-        employees={employees} onDelete={deleteEmployee} 
-        editMode={editMode} setEditMode={setEditMode} />
+        {view === "employees" && (
+          <>
+            <EmployeeForm onAdd={addEmployee} />
+            <EmployeeList
+              employees={employees}
+              onDelete={deleteEmployee}
+              editMode={editMode}
+              setEditMode={setEditMode}
+            />
+          </>
+        )}
+
+        {view === "attendance" && (
+          <>
+            <AttendanceList />
+            
+          </>
+        )}
       </div>
     </div>
   );
