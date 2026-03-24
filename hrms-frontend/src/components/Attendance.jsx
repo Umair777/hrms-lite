@@ -11,7 +11,27 @@ export default function Attendance() {
   useEffect(() => {
     fetchTodayAttendance();
   }, []);
+    const markAttendance = async (employee_id, status) => {
+    const today = new Date().toISOString().split("T")[0];
 
+    try {
+      await fetch("http://localhost:8000/attendance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          employee_id,
+          date: today,
+          status,
+        }),
+      });
+
+      await fetchTodayAttendance(); // refresh UI
+    } catch (err) {
+      console.error("Error marking attendance:", err);
+    }
+  };
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4 text-blue-600">
@@ -60,14 +80,15 @@ export default function Attendance() {
                 </td>
           </tr>
         ))}
-          {/* Empty state
-        {employees?.length === 0 && (
+          
+      </tbody>
+    </table>
+    {/* Empty state */}
+        {/* {employees?.length === 0 && (
           <p className="text-center mt-4 text-gray-500">
             No employees found
           </p>
         )} */}
-      </tbody>
-    </table>
     </div>
   );
 }
