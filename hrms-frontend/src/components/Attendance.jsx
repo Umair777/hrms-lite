@@ -146,7 +146,48 @@ export default function Attendance() {
       >
         Fetch Records
       </button>
+      
     )}
+    <div className="mt-6">
+  <h3 className="text-xl font-bold mb-2 text-blue-600">
+    Past Records
+  </h3>
+
+  {records.length === 0 ? (
+    <p className="text-gray-500">No records found</p>
+  ) : (
+    <table className="table-auto w-full border">
+      <thead>
+        <tr className="bg-gray-100">
+          <th className="p-2 border">Employee ID</th>
+          <th className="p-2 border">Date</th>
+          <th className="p-2 border">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {records.map((r) => (
+          <tr key={r.id} className="text-center border">
+            <td className="p-2 border">{r.employee_id}</td>
+            <td className="p-2 border">{r.date}</td>
+            <td className="p-2 border">
+              {r.status === "Present" && (
+                <span className="text-green-600 font-bold">
+                  Present
+                </span>
+              )}
+              {r.status === "Absent" && (
+                <span className="text-red-600 font-bold">
+                  Absent
+                </span>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+</div>
     {/* Empty state */}
         {attendance?.length === 0 && (
           <p className="text-center mt-4 text-gray-500">
