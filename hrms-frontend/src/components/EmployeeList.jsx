@@ -41,9 +41,9 @@ export default function EmployeeList({ employees, onDelete, editMode, setEditMod
                             <td className="border p-2">
                             <button
                                 onClick={() => {
-                                
+                                if (window.confirm("Are you sure?")) {
                                     onDelete(index);
-                                
+                                }
                                 }}
                                 className="bg-red-500 text-white px-2 py-1 rounded"
                             >
