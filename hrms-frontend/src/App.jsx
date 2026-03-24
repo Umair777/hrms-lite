@@ -14,7 +14,7 @@ function App() {
     const res = await fetch("http://localhost:8000/employees");
     const data = await res.json();
     console.log("Fetched data:", data); 
-    setEmployees(data);
+    setEmployees(data.data);
   };
   useEffect(() => {
     fetchEmployees();
