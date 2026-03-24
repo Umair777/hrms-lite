@@ -19,20 +19,28 @@ function App() {
   //create a function to add employee to the list
   const addEmployee = async (emp) => {
   //backend call to save employee in database
-   const res = await fetch("http://localhost:8000/employees", {
+   const res = await fetch("http://localhost:8000/employees", 
+    {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(emp),
-  });
+   }
+);
 
   const data = await res.json();
 
   // update UI with response
   // setEmployees([...employees, emp]);
   };
-  const deleteEmployee = (index) => {
-    const updated = employees.filter((_, i) => i !== index);
-    setEmployees(updated);
+  const deleteEmployee = async (id) => {
+    await fetch(
+      `http://localhost:8000/employees/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+    // refresh from DB
+  await fetchEmployees();
   };
     
   return (
