@@ -7,37 +7,27 @@ export default function EmployeeForm({ onAdd }) {
     email: "",
     department: "",
   });
+  const handleChange = (e) => {
+  setForm({ ...form, [e.target.name]: e.target.value });
+};
+
   return (
+  <div>
     <form className="space-y-3">
-      <input
-        placeholder="Employee ID"
-        className="border p-2 w-full"
-        value={form.employee_id}
-        onChange={(e) => setForm({ ...form, employee_id: e.target.value })}
-      />
-      <input
-        placeholder="Full Name"
-        className="border p-2 w-full"
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-      <input
-        placeholder="Email"
-        className="border p-2 w-full"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-      <input
-        placeholder="Department"
-        className="border p-2 w-full"
-        value={form.department}
-        onChange={(e) => setForm({ ...form, department: e.target.value })}
-      />
+      <input name="employee_id" placeholder="Employee ID" onChange={handleChange} className="border p-2 w-full" />
+      <input name="name" placeholder="Full Name" onChange={handleChange} className="border p-2 w-full" />
+      <input name="email" placeholder="Email" onChange={handleChange} className="border p-2 w-full" />
+      <input name="department" placeholder="Department" onChange={handleChange} className="border p-2 w-full" />
 
       <button className="bg-blue-500 text-white px-4 py-2">
         Add Employee
       </button>
     </form>
-    
-  );
+
+    {/* 👇 DEBUG VIEW */}
+    <pre className="bg-gray-100 p-2 mt-4 text-sm">
+      {JSON.stringify(form, null, 2)}
+    </pre>
+  </div>
+);
 }
