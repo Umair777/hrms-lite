@@ -41,3 +41,12 @@ def delete_employee(id: int):
         raise HTTPException(status_code=404, detail="No Employee in the Database")
 
     return {"message": "Employee deleted successfully"}
+
+@app.post("/attendance")
+def mark_attendance(data: dict):
+    res = supabase.table("attendance").insert(data).execute()
+
+    if not res.data:
+        raise HTTPException(status_code=500, detail="Failed to mark attendance")
+
+    return res.data[0]
