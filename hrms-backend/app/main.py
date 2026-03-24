@@ -1,6 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-# from .schemas import EmployeeCreate
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from .schemas import EmployeeCreate
 from .database import supabase
 
 app = FastAPI()
@@ -25,29 +27,85 @@ def root():
 
 # Add a new employee
 @app.post("/employees")
-def add_employee(emp: dict):
-    print("Received employee data:", emp)
-    res = supabase.table("employees").insert(emp).execute()
-    print("Supabase response:", res)
-    if res.data is None:
-        raise HTTPException(status_code=500, detail="Failed to add employee")
-    return res.data[0]
+def add_employee(emp: EmployeeCreate):
+    try:
+        #  Check duplicate employee_id
+        existing = supabase.table("employees") \
+            .select("*") \
+            .eq("employee_id", emp.employee_id) \
+            .execute()
+
+        if existing.data:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Employee with this ID already exists"
+            )
+        # Insert employee
+        res = supabase.table("employees").insert(emp.dict()).execute()
+        if not res.data:
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Failed to create employee"
+                )
+        return {
+                "success": True,
+                "message": "Employee created successfully",
+                "data": res.data[0]
+            }
+    except HTTPException:
+        raise
+
+    except Exception:
+        raise HTTPException(
+            status_code=500,
+            detail="Internal server error"
+        )
 
 # Get all employees
 @app.get("/employees")
 def get_employees():
-    res = supabase.table("employees").select("*").execute()
-    return res.data
+    try:
+        res = supabase.table("employees").select("*").execute()
+
+        return {
+            "success": True,
+            "data": res.data or []
+        }
+
+    except Exception:
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to fetch employees"
+        )
 
 # Delete an employee by ID
 @app.delete("/employees/{id}")
 def delete_employee(id: int):
-    res = supabase.table("employees").delete().eq("id", id).execute()
+    try:
+        res = supabase.table("employees") \
+            .delete() \
+            .eq("id", id) \
+            .execute()
 
-    if not res.data:
-        raise HTTPException(status_code=404, detail="No Employee in the Database")
+        if not res.data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Employee not found"
+            )
 
-    return {"message": "Employee deleted successfully"}
+        return {
+            "success": True,
+            "message": "Employee deleted successfully"
+        }
+
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(
+            status_code=500,
+            detail="Error deleting employee"
+        )
+
 
 ####################### Attendance endpoints #######################
 
@@ -66,3 +124,32 @@ def mark_attendance(data: dict):
 def get_attendance():
     res = supabase.table("attendance").select("*").execute()
     return res.data
+
+# ============================
+# GLOBAL ERROR HANDLING
+# ============================
+
+# Validation errors (Pydantic)
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=422,
+        content={
+            "success": False,
+            "error": "Validation Error",
+            "details": exc.errors()
+        },
+    )
+
+
+# ✅ Generic errors
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False,
+            "error": "Internal Server Error",
+            "message": str(exc)
+        },
+    )

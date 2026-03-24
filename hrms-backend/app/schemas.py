@@ -1,7 +1,7 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 class EmployeeCreate(BaseModel):
-    employee_id: str
-    name: str
+    employee_id: str = Field(..., min_length=1)
+    name: str = Field(..., min_length=1)
     email: EmailStr
-    department: str
+    department: str = Field(..., min_length=1)
