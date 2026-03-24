@@ -4,11 +4,16 @@ import EmployeeForm from "./components/EmployeeForm";
 import EmployeeList from "./components/EmployeeList";
 function App() {
   const [employees, setEmployees] = useState([]);
+  const [editMode, setEditMode] = useState(false);
   //create a function to add employee to the list
   const addEmployee = (emp) => {
   setEmployees([...employees, emp]);
-};
-  const [editMode, setEditMode] = useState(false);
+  };
+  const deleteEmployee = (index) => {
+    const updated = employees.filter((_, i) => i !== index);
+    setEmployees(updated);
+  };
+    
   return (
     <div>
     <Navbar />
@@ -17,7 +22,9 @@ function App() {
     </div>
     <div className="p-6">
         <EmployeeForm onAdd={addEmployee} />
-        <EmployeeList  employees={employees}/>
+        <EmployeeList  
+        employees={employees} onDelete={deleteEmployee} 
+        editMode={editMode} setEditMode={setEditMode} />
       </div>
     </div>
   );

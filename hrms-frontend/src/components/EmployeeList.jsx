@@ -7,11 +7,11 @@ export default function EmployeeList({ employees, onDelete, editMode, setEditMod
     return (
         <div className="mt-4">
             <div className="flex justify-between items-center mb-3">
-            <h2 className="text-xl font-bold mb-5 justify-content item-center text-blue-600 ">
+            <h2 className="text-xl font-bold mb-5 text-blue-600 ">
                 Employee List
             </h2>
             <button className="bg-blue-600 text-white px-3 py-1 rounded" onClick={() => setEditMode(!editMode)}>
-            Edit Mode </button>
+            {editMode ? "Done" : "Edit"} </button>
             </div>
             <table className="w-full border border-gray-300">
                 <thead>
