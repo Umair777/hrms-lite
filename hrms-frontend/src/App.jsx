@@ -1,13 +1,20 @@
 import Navbar from "./components/Navbar";
 import { useState } from "react";
+import EmployeeForm from "./components/EmployeeForm";
+import EmployeeList from "./components/EmployeeList";
 function App() {
   const [employees, setEmployees] = useState([]);
+  
   return (
     <div>
     <Navbar />
     <div className="p-10 text-4xl text-center font-bold text-blue-600">
       HRMS Lite Dashboard
     </div>
+    <div className="p-6">
+        <EmployeeForm/>
+        <EmployeeList />
+      </div>
     </div>
   );
 }
