@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 export default function Attendance() {
     const [attendance, setAttendance] = useState([]);
+    const [showSelector, setShowSelector] = useState(false);
     // fetch today's attendance
   const fetchTodayAttendance = async () => {
     const res = await fetch("http://localhost:8000/attendance/today");
@@ -34,9 +35,19 @@ export default function Attendance() {
   };
   return (
     <div>
+    <div className="flex justify-between items-center mb-4">
       <h2 className="text-2xl font-bold mb-4 text-blue-600">
         Attendance List
         </h2>
+        <button
+    className="bg-blue-600 text-white px-4 py-2 rounded"
+    onClick={() => setShowSelector(!showSelector)}
+  >
+    {showSelector ? "Close" : "Get Records"}
+  </button>
+
+  </div>
+  
        <table className="table-auto w-full border">
       <thead>
         <tr className="bg-gray-100">
@@ -84,11 +95,11 @@ export default function Attendance() {
       </tbody>
     </table>
     {/* Empty state */}
-        {/* {employees?.length === 0 && (
+        {attendance?.length === 0 && (
           <p className="text-center mt-4 text-gray-500">
             No employees found
           </p>
-        )} */}
+        )}
     </div>
   );
 }
