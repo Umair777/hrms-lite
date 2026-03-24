@@ -24,9 +24,9 @@ def add_employee(emp: dict):
     print("Received employee data:", emp)
     res = supabase.table("employees").insert(emp).execute()
     print("Supabase response:", res)
-    if res.status_code != 201:
+    if res.data is None:
         raise HTTPException(status_code=500, detail="Failed to add employee")
-    return res.data
+    return res.data[0]
 
 @app.get("/employees")
 def get_employees():
