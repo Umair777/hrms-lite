@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 export default function Attendance() {
     const [attendance, setAttendance] = useState([]);
     const [showSelector, setShowSelector] = useState(false);
+    const [selectedEmployees, setSelectedEmployees] = useState([]);
     // fetch today's attendance
   const fetchTodayAttendance = async () => {
     const res = await fetch("http://localhost:8000/attendance/today");
@@ -50,7 +51,10 @@ export default function Attendance() {
   
        <table className="table-auto w-full border">
       <thead>
+        
         <tr className="bg-gray-100">
+          {showSelector && <th className="p-2 border">Select</th>}
+          
           <th className="p-2 border">Employee ID</th>
           <th className="p-2 border">Date</th>
           <th className="p-2 border">Status</th>
@@ -61,6 +65,27 @@ export default function Attendance() {
       <tbody>
         {attendance?.map((att) => (
           <tr key={att.id} className="text-center border">
+            {/* CHECKBOX  (FIRST COLUMN) */}
+              {showSelector && (
+                <td className="p-2 border">
+                  <input
+                    type="checkbox"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedEmployees((prev) => [
+                          ...prev,
+                          att.employee_id,
+                        ]);
+                      } else {
+                        setSelectedEmployees((prev) =>
+                          prev.filter((id) => id !== att.employee_id)
+                        );
+                      }
+                    }}
+                  />
+                </td>
+              )}
+
             <td className="p-2 border">{att.employee_id}</td>
             <td className="p-2 border">{att.date}</td>
             
