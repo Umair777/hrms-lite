@@ -90,9 +90,10 @@ export default function Attendance({ employees }) {
           {showSelector && <th className="p-2 border">Select</th>}
           
           <th className="p-2 border">Employee ID</th>
+          <th className="p-2 border">Name</th>
           <th className="p-2 border">Date</th>
-          <th className="p-2 border">Status</th>
           <th className="p-2 border">Mark</th>
+          <th className="p-2 border">Action</th>
         </tr>
       </thead>
 
