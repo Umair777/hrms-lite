@@ -17,7 +17,7 @@ export default function EmployeeList({ employees, onDelete, editMode, setEditMod
                 <thead>
                 <tr className="w-full border text-white bg-blue-900">
                     <th className="border p-2">S.No</th>
-                    <th className="border p-2">ID</th>
+                    <th className="border p-2">Employee ID</th>
                     <th className="border p-2">Name</th>
                     <th className="border p-2">Email</th>
                     <th className="border p-2">Department</th>
