@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-export default function Attendance() {
+export default function Attendance({ employees }) {
+  
     const [attendance, setAttendance] = useState([]);
     const [showSelector, setShowSelector] = useState(false);
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [records, setRecords] = useState([]);
+     //  NEW: map employee_id (FK) → employee object
+    const getEmployee = (id) => {
+    return employees.find((emp) => emp.id === id);
+  };
+    //  Fetch all records for history
     const fetchRecords = async () => {
     if (selectedEmployees.length === 0) {
       alert("Select at least one employee");
@@ -25,14 +31,22 @@ export default function Attendance() {
   };
     // fetch today's attendance
   const fetchTodayAttendance = async () => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/attendance/today`);
-    const data = await res.json();
-    console.log("attendance:", data);
-    setAttendance(data.data || []);
+    
+    try{
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/attendance/today`);
+      const data = await res.json();
+      console.log("attendance:", data);
+      setAttendance(data.data || []);
+    } catch (err) {
+      console.error("Error fetching today's attendance:", err);
+      setAttendance([]);
+    }
   };
   useEffect(() => {
     fetchTodayAttendance();
   }, []);
+
+    //  Mark attendance
     const markAttendance = async (employee_id, status) => {
     const today = new Date().toISOString().split("T")[0];
 
@@ -56,19 +70,19 @@ export default function Attendance() {
   };
   return (
     <div>
+      {/* HEADER */}
     <div className="flex justify-between items-center mb-4">
       <h2 className="text-2xl font-bold mb-4 text-blue-600">
         Attendance List
         </h2>
         <button
-    className="bg-blue-600 text-white px-4 py-2 rounded"
-    onClick={() => setShowSelector(!showSelector)}
-  >
-    {showSelector ? "Close" : "Get Records"}
-  </button>
-
-  </div>
-  
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+          onClick={() => setShowSelector(!showSelector)}
+        >
+          {showSelector ? "Close" : "Get Records"}
+        </button>
+    </div>
+  {/* MAIN TABLE */}
        <table className="table-auto w-full border">
       <thead>
         
@@ -83,33 +97,46 @@ export default function Attendance() {
       </thead>
 
       <tbody>
-        {attendance?.map((att) => (
-          <tr key={att.id} className="text-center border">
-            {/* CHECKBOX  (FIRST COLUMN) */}
-              {showSelector && (
-                <td className="p-2 border">
-                  <input
-                    type="checkbox"
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedEmployees((prev) => [
-                          ...prev,
-                          att.employee_id,
-                        ]);
-                      } else {
-                        setSelectedEmployees((prev) =>
-                          prev.filter((id) => id !== att.employee_id)
-                        );
-                      }
-                    }}
-                  />
-                </td>
-              )}
+          {attendance.map((att) => {
+            const emp = getEmployee(att.employee_id);
 
-            <td className="p-2 border">{att.employee_id}</td>
-            <td className="p-2 border">{att.date}</td>
-            
-            {/*  Status Display */}
+            return (
+              <tr key={att.id} className="text-center border">
+                {/* CHECKBOX */}
+                {showSelector && (
+                  <td className="p-2 border">
+                    <input
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedEmployees((prev) =>
+                            prev.includes(att.employee_id)
+                              ? prev
+                              : [...prev, att.employee_id]
+                          );
+                        } else {
+                          setSelectedEmployees((prev) =>
+                            prev.filter((id) => id !== att.employee_id)
+                          );
+                        }
+                      }}
+                    />
+                  </td>
+                )}
+
+                {/* ✅ FIXED: show correct employee_id */}
+                <td className="p-2 border">
+                  {emp?.employee_id || "N/A"}
+                </td>
+
+                {/* ✅ NEW: show employee name */}
+                <td className="p-2 border">
+                  {emp?.name || "N/A"}
+                </td>
+
+                <td className="p-2 border">{att.date}</td>
+
+                {/* STATUS */}
                 <td className="p-2 border">
                   {att.status === "Present" && (
                     <span className="text-green-600 font-bold">
@@ -122,7 +149,9 @@ export default function Attendance() {
                     </span>
                   )}
                 </td>
-                 <td className="p-2 border">
+
+                {/* MARK */}
+                <td className="p-2 border">
                   <select
                     className="border px-2 py-1"
                     value={att.status}
@@ -134,10 +163,10 @@ export default function Attendance() {
                     <option value="Absent">Absent</option>
                   </select>
                 </td>
-          </tr>
-        ))}
-          
-      </tbody>
+              </tr>
+            );
+          })}
+        </tbody>
     </table>
     {showSelector && (
       <button
