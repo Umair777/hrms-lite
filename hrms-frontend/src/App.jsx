@@ -14,7 +14,7 @@ function App() {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/employees`);
     const data = await res.json();
     console.log("Fetched data:", data); 
-    setEmployees(data.data);
+    setEmployees(data.data || []);
   };
   useEffect(() => {
     fetchEmployees();
@@ -35,13 +35,18 @@ function App() {
   // update UI with response
   // setEmployees([...employees, emp]);
   };
+
+  //  Delete employee
   const deleteEmployee = async (id) => {
-    await fetch(
-      `${import.meta.env.VITE_API_URL}/employees`,
-      {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/employees/${id}`, {
         method: "DELETE",
-      }
-    );
+      });
+
+      await fetchEmployees(); // refresh
+    } catch (err) {
+      console.error("Error deleting employee:", err);
+    }
     // refresh from DB
   await fetchEmployees();
   };
@@ -67,7 +72,7 @@ function App() {
 
         {view === "attendance" && (
           <>
-            <AttendanceList />
+            <AttendanceList employees={employees} />
             
           </>
         )}
