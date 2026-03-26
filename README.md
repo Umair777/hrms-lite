@@ -5,8 +5,18 @@ A lightweight Human Resource Management System (HRMS Lite) built to manage emplo
 This project demonstrates **end-to-end full-stack development**, including frontend UI, backend APIs, database integration, validation, and deployment readiness.
 
 ---
+## 🚀 Usage
+### 1. Start Backend (Render)
 
-## 🚀 Features
+Before using the app, wake up the backend (may take a few seconds if idle):
+
+https://hrms-lite-jo2k.onrender.com/
+
+### 2. Open Frontend (Vercel)
+
+Access the user interface here:
+
+https://hrms-lite-frontend-delta.vercel.app/
 
 ### 👨‍💼 Employee Management
 
