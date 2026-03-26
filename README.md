@@ -232,16 +232,9 @@ CREATE TABLE attendance (
 
 ---
 
-## 📌 Submission Links
-
-* 🌐 Live Frontend: (Add your Vercel/Netlify link)
-* ⚙️ Backend API: (Add your Render link)
-* 📂 GitHub Repo: (Add repo link)
-
----
 
 ## 👨‍💻 Author
 
-Developed as part of a full-stack evaluation assignment.
+### Mohd Umair Ashraf
 
 ---
