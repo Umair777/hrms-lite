@@ -18,6 +18,8 @@ Access the user interface here:
 
 https://hrms-lite-frontend-delta.vercel.app/
 
+## Features
+
 ### 👨‍💼 Employee Management
 
 * Add new employees (ID, Name, Email, Department)
